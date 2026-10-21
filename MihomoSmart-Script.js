@@ -2,7 +2,7 @@
  * MihomoSmart配置覆写脚本（基于AIsouler脚本改版）
  * 作者：huayifa
  * 源仓库：https://github.com//huayifa/MihomoSmart-Script
- * 脚本链接：https://raw.githubusercontent.com/AIsouler/MyClash/main/Script/mihomoScript.js
+ * 脚本链接：https://raw.githubusercontent.com/huayifa/MihomoSmart-Script/refs/heads/main/MihomoSmart-Script.js
  */
 
 // --- 静态配置区域 ---
