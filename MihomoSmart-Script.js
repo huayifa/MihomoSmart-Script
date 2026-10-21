@@ -1092,14 +1092,17 @@ function buildFunctionalGroups(filteredProxies, generatedRegionGroups, customize
     const defaultGroup = {
       ...selectBaseOption,
       name: '默认代理',
-      proxies: [...(autoSelectGroupEnabled ? ['Smart智能选点'] : []),...allProxiesNames.filter((name) => name !== 'Smart智能选点'),],
+      proxies: [
+        ...(autoSelectGroupEnabled ? ['Smart智能选点'] : []),
+        ...allProxiesNames.filter((name) => name !== 'Smart智能选点'),
+      ],
       icon: `${iconBaseUrl}Proxy.svg`,
     };
-
+    
     const autoSelectGroup = {
       ...urlTestBaseOption,
       name: 'Smart智能选点',
-      proxies: allProxiesNames,
+      proxies: allProxiesNames.filter((name) => name !== 'Smart智能选点'),
       hidden: true,
     };
 
