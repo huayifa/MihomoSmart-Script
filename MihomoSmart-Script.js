@@ -965,7 +965,7 @@ function createRegionGroup(name, icon, proxies) {
         ...selectBaseOption,
         name,
         icon,
-        proxies: [...proxies, urlTestName],
+        proxies: [urlTestName, ...proxies],
         hidden: hideManualSelectGroupEnabled,
       },
     ];
