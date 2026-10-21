@@ -1128,10 +1128,15 @@ function buildFunctionalGroups(filteredProxies, generatedRegionGroups, customize
   }
 
   functionalGroups.push({
-    ...selectBaseOption,
-    name: '默认代理',
-    proxies: [...groupNamesOfSelect, ...baseGroupNames, ...customGroupNames],
-    icon: `${iconBaseUrl}Proxy.svg`,
+  ...selectBaseOption,
+  name: '默认代理',
+  proxies: [
+    ...(ruleOptionsEnable.自动选择 ? ['Smart智能选点'] : []),
+    ...groupNamesOfSelect,
+    ...baseGroupNames.filter((name) => name !== 'Smart智能选点'),
+    ...customGroupNames,
+  ],
+  icon: `${iconBaseUrl}Proxy.svg`,
   });
 
   const orderedServiceConfigs = [
