@@ -332,7 +332,7 @@ const selectBaseOption = {
 const urlTestBaseOption = {
   ...groupBaseOption,
   type: 'smart',
-  uselightgbm: true,
+  uselightgbm: false,
   'prefer-asn': true,
   icon: `${iconBaseUrl}Auto.svg`,
   hidden: true,
