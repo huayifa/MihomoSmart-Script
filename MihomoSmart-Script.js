@@ -358,6 +358,7 @@ const baseGroups = [
   },
   {
     name: 'Smart智能选点',
+    optionKey: '自动选择', // 兼容原有可视化开关名称
     baseOption: urlTestBaseOption,
     includeAll: true,
     icon: `${iconBaseUrl}Auto.svg`,
@@ -1079,7 +1080,7 @@ function buildFunctionalGroups(filteredProxies, generatedRegionGroups, customize
   const filteredProxyNames = filteredProxies.map((p) => p.name);
   const allProxiesNames = [...filteredProxyNames, ...customProxyNames];
   const groupNamesOfSelect = generatedRegionGroups.filter((g) => g.type === 'select').map((g) => g.name);
-  const baseGroupNames = baseGroups.filter((g) => ruleOptionsEnable[g.name]).map((g) => g.name);
+  const baseGroupNames = baseGroups.filter((g) => ruleOptionsEnable[g.optionKey || g.name]).map((g) => g.name);
   const customGroupNames = customGroup ? [customGroup.name] : [];
 
   if (minimalModeEnabled) {
@@ -1138,14 +1139,14 @@ function buildFunctionalGroups(filteredProxies, generatedRegionGroups, customize
     ...serviceConfigs.filter((svc) => svc.name !== 'AdBlock'),
   ];
   for (const svc of orderedServiceConfigs) {
-    if (!ruleOptionsEnable[svc.name]) continue;
+    if (!ruleOptionsEnable[svc.optionKey || svc.name]) continue;
 
     functionalRules.push(...(svc.rules || []));
     Object.assign(finalRuleProviders, svc.providers || {});
   }
 
   for (const svc of serviceConfigs) {
-    if (!ruleOptionsEnable[svc.name]) continue;
+    if (!ruleOptionsEnable[svc.optionKey || svc.name]) continue;
 
     let groupProxies = [];
     if (svc.includeAll) {
