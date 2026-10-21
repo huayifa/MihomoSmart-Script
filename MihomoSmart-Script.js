@@ -1132,9 +1132,11 @@ function buildFunctionalGroups(filteredProxies, generatedRegionGroups, customize
   name: '默认代理',
   proxies: [
     ...(ruleOptionsEnable.自动选择 ? ['Smart智能选点'] : []),
-    ...groupNamesOfSelect,
-    ...baseGroupNames.filter((name) => name !== 'Smart智能选点'),
-    ...customGroupNames,
+    ...[
+      ...groupNamesOfSelect,
+      ...baseGroupNames,
+      ...customGroupNames,
+    ].filter((name) => name !== 'Smart智能选点'),
   ],
   icon: `${iconBaseUrl}Proxy.svg`,
   });
