@@ -1,0 +1,73 @@
+
+name: Sync MyClash with Smart
+
+on:
+  schedule:
+    - cron: "17,47 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync and patch upstream script
+        run: |
+          python3 - <<'PY'
+          import urllib.request
+          import pathlib
+          import re
+
+          url = "https://raw.githubusercontent.com/AIsouler/MyClash/main/Script/mihomoScript.js"
+
+          req = urllib.request.Request(
+              url,
+              headers={"User-Agent": "GitHub-Actions"}
+          )
+
+          content = urllib.request.urlopen(req).read().decode("utf-8")
+
+          pattern = re.compile(
+              r"(const urlTestBaseOption\s*=\s*\{\s*"
+              r"\.\.\.groupBaseOption,\s*"
+              r"type:\s*)['\"]url-test['\"]"
+          )
+
+          content, count = pattern.subn(
+              r"\1'smart'",
+              content,
+              count=1
+          )
+
+          if count != 1:
+              raise RuntimeError(
+                  "未找到预期的 urlTestBaseOption 配置，停止更新以避免错误覆盖"
+              )
+
+          path = pathlib.Path("Script/mihomoScript.js")
+          path.parent.mkdir(parents=True, exist_ok=True)
+          path.write_text(content, encoding="utf-8")
+
+          print("同步成功：urlTestBaseOption 已修改为 smart")
+          PY
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add Script/mihomoScript.js
+
+          if git diff --cached --quiet; then
+            echo "没有新更新"
+            exit 0
+          fi
+
+          git commit -m "Sync upstream MyClash with Smart"
+          git push
