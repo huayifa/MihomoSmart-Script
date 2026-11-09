@@ -336,11 +336,10 @@ const selectBaseOption = {
   type: 'select',
 };
 
-// url-test策略组通用配置
+// Smart 智能选点策略组通用配置
 const urlTestBaseOption = {
   ...groupBaseOption,
   type: 'smart',
-  tolerance: 50,
   'exclude-type': 'DIRECT',
   icon: `${iconBaseUrl}Auto.svg`,
   hidden: true,
