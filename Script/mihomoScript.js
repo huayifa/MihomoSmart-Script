@@ -961,7 +961,7 @@ function createRegionGroup(name, icon, proxies) {
   const hideManualSelectGroupEnabled = ruleOptionsEnable.隐藏地区手动选择组;
 
   if (generateRegionAutoSelectEnabled) {
-    const urlTestName = `${name}-自动选择`;
+    const urlTestName = `${name}-Smart智能选点`;
     return [
       {
         ...urlTestBaseOption,
