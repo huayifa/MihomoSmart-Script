@@ -51,7 +51,8 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add .
+          # 仅提交项目脚本和测试文件，避免 GITHUB_TOKEN 推送工作流文件时触发权限限制
+          git add Script/ Test/
 
           if git diff --cached --quiet; then
             echo "no changes to commit"
