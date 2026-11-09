@@ -339,7 +339,7 @@ const selectBaseOption = {
 // url-test策略组通用配置
 const urlTestBaseOption = {
   ...groupBaseOption,
-  type: 'url-test',
+  type: 'smart',
   tolerance: 50,
   'exclude-type': 'DIRECT',
   icon: `${iconBaseUrl}Auto.svg`,
