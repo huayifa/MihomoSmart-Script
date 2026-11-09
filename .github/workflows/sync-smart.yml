@@ -56,6 +56,14 @@ jobs:
                       raise RuntimeError("未找到预期的 urlTestBaseOption 配置，停止更新")
 
           # 同步将基础组、极简模式组及其引用改为新名称。
+          # 地区自动选择组名称同步改为“地区-Smart智能选点”。
+          content, region_count = re.subn(
+              r"\$\{name\}-自动选择",
+              "${name}-Smart智能选点",
+              content
+          )
+          if region_count < 1:
+              raise RuntimeError("未找到地区自动选择组名称模板，停止更新")
           content, group_count = re.subn(
               r"name:\s*(['\"])自动选择\1",
               "name: 'Smart智能选点'",
