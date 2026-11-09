@@ -296,10 +296,11 @@ function runIntegrationTests(h, api, fx, loadScript, scriptFile) {
     withOptions(api, { 极简国内外分流模式: true }, () => {
       const out = api.main(fx.typicalSubscription());
       const groups = out['proxy-groups'];
+      const autoSelectName = scriptFile.endsWith('mihomoScript.js') ? 'Smart智能选点' : '自动选择';
       h.assertDeep(
         groups.map((g) => g.name),
-        ['GLOBAL', '默认代理', 'Smart智能选点', '直连'],
-        '极简国内外分流模式策略组应仅保留 GLOBAL、默认代理、Smart智能选点和直连',
+        ['GLOBAL', '默认代理', autoSelectName, '直连'],
+        `极简国内外分流模式策略组应仅保留 GLOBAL、默认代理、${autoSelectName} 和直连`,
       );
       h.assert(!out.dns['fake-ip-filter'].includes('rule-set:googlefcm'), '不应注入 FCM fake-IP 规则');
       h.assert(!out.rules.some((rule) => /,(Google|AI|Telegram|Steam|AdBlock)$/.test(rule)), '不应生成分流规则');
