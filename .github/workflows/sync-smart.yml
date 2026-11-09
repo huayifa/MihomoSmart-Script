@@ -25,36 +25,47 @@ jobs:
           import re
 
           url = "https://raw.githubusercontent.com/AIsouler/MyClash/main/Script/mihomoScript.js"
-
-          req = urllib.request.Request(
-              url,
-              headers={"User-Agent": "GitHub-Actions"}
-          )
-
+          req = urllib.request.Request(url, headers={"User-Agent": "GitHub-Actions"})
           content = urllib.request.urlopen(req).read().decode("utf-8")
 
-          pattern = re.compile(
-              r"(const urlTestBaseOption\s*=\s*\{\s*"
-              r"\.\.\.groupBaseOption,\s*"
-              r"type:\s*)['\"]url-test['\"]"
-          )
-
-          content, count = pattern.subn(
-              r"\1'smart'",
+          # 只修改自动选择公共配置，不改动其他代理组和分流规则。
+          content, comment_count = re.subn(
+              r"// url-test策略组通用配置",
+              "// Smart 智能选点策略组通用配置",
               content,
               count=1
           )
 
-          if count != 1:
-              raise RuntimeError(
-                  "未找到预期的 urlTestBaseOption 配置，停止更新以避免错误覆盖"
+          block_pattern = re.compile(
+              r"(const urlTestBaseOption\\s*=\\s*\\{\\s*"
+              r"\\.\\.\\.groupBaseOption,\\s*"
+              r"type:\\s*)['\\"]url-test['\\"]"
+              r"([,]\\s*\\n)"
+              r"(\\s*tolerance:\\s*[^,\\n]+,\\s*\\n)?"
+          )
+
+          content, count = block_pattern.subn(
+              r"\\1'smart'\\2",
+              content,
+              count=1
+          )
+
+          # 兼容上游已经被其他流程改成 smart 的情况，同时确保移除旧测速参数。
+          if count == 0:
+              smart_pattern = re.compile(
+                  r"(const urlTestBaseOption\\s*=\\s*\\{\\s*"
+                  r"\\.\\.\\.groupBaseOption,\\s*"
+                  r"type:\\s*['\\"]smart['\\"],\\s*\\n)"
+                  r"\\s*tolerance:\\s*[^,\\n]+,\\s*\\n"
               )
+              content, removed = smart_pattern.subn(r"\\1", content, count=1)
+              if removed != 1:
+                  raise RuntimeError("未找到预期的 urlTestBaseOption 配置，停止更新")
 
           path = pathlib.Path("Script/mihomoScript.js")
           path.parent.mkdir(parents=True, exist_ok=True)
           path.write_text(content, encoding="utf-8")
-
-          print("同步成功：urlTestBaseOption 已修改为 smart")
+          print("同步完成：自动选择组使用 smart，已移除 tolerance 参数")
           PY
 
       - name: Commit changes
