@@ -364,7 +364,7 @@ const baseGroups = [
     icon: `${iconBaseUrl}Static.svg`,
   },
   {
-    name: '自动选择',
+    name: 'Smart智能选点',
     baseOption: urlTestBaseOption,
     includeAll: true,
     icon: `${iconBaseUrl}Auto.svg`,
@@ -1120,13 +1120,13 @@ function buildFunctionalGroups(filteredProxies, generatedRegionGroups, customize
     const defaultGroup = {
       ...selectBaseOption,
       name: '默认代理',
-      proxies: [...allProxiesNames, ...(autoSelectGroupEnabled ? ['自动选择'] : [])],
+      proxies: [...allProxiesNames, ...(autoSelectGroupEnabled ? ['Smart智能选点'] : [])],
       icon: `${iconBaseUrl}Proxy.svg`,
     };
 
     const autoSelectGroup = {
       ...urlTestBaseOption,
-      name: '自动选择',
+      name: 'Smart智能选点',
       proxies: allProxiesNames,
       hidden: true,
     };
