@@ -56,6 +56,19 @@ jobs:
                       raise RuntimeError("未找到预期的 urlTestBaseOption 配置，停止更新")
 
           # 同步将基础组、极简模式组及其引用改为新名称。
+          # 将启用开关名称同步为 Smart智能选点，确保默认代理组能正确引用基础组。
+          content, option_count = re.subn(
+              r"自动选择(?=:\\s*true)",
+              "Smart智能选点",
+              content,
+              count=1
+          )
+          if option_count != 1:
+              raise RuntimeError("未找到自动选择开关定义，停止更新")
+          content = content.replace(
+              "ruleOptionsEnable.自动选择",
+              "ruleOptionsEnable.Smart智能选点"
+          )
           # 地区自动选择组名称同步改为“地区-Smart智能选点”。
           content, region_count = re.subn(
               r"\$\{name\}-自动选择",
