@@ -19,7 +19,7 @@ const Compatible_With_Bettbox = { ruleOptionsEnable: true };
 const ruleOptionsEnable = {
   // 基础策略组
   手动选择: true, // 是否启用手动选择策略组
-  Smart智能选点: true, // 是否启用 Smart 智能选点策略组
+  Smart智能选点: true, // 是否启用自动选择策略组
   负载均衡: true, // 是否启用负载均衡策略组
 
   // 以下为分流策略配置
@@ -336,7 +336,7 @@ const selectBaseOption = {
   type: 'select',
 };
 
-// Smart 智能选点策略组通用配置
+// url-test策略组通用配置
 const urlTestBaseOption = {
   ...groupBaseOption,
   type: 'smart',
